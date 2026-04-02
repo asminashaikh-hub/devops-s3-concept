@@ -1,4 +1,5 @@
 - name: PLAY
   hosts: tag_web
+  become: yes
   roles:
     - ec2
