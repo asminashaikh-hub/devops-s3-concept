@@ -16,7 +16,7 @@
 - name: Pull Image and run the container
   docker_container:
     name: my-website
-    image: "asmina001\s3:latest"
+    image: "asmina001/s3:latest"
     state: started
     pull: true
     ports:
