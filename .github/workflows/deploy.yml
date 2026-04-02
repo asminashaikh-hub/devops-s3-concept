@@ -22,11 +22,11 @@ jobs:
 
         - name: "Create S3 bucket "
           run: |
-            aws s3api create-bucket --bucket static-website-2026 --region ap-south-1 --create-bucket-configuration LocationConstraint=ap-south-1
+            aws s3api create-bucket --bucket ss --region ap-south-1 --create-bucket-configuration LocationConstraint=ap-south-1
 
         - name: "Upload to S3"
           run: |
-            aws s3 sync . s3://static-website --exclude ".git/*" 
+            aws s3 sync . s3://ss --exclude ".git/*" 
 
         - name: "Login Docker"
           uses: docker/login-action@v3
