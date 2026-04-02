@@ -1,4 +1,4 @@
 - name: PLAY
-  hosts: tag-web
+  hosts: tag_web
   roles:
     - ec2
