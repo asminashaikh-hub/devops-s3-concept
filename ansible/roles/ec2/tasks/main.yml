@@ -1,0 +1,24 @@
+---
+# tasks file for roles/ec2
+#
+- name: Install docker
+  ansible.builtin.apt:
+    name: docker.io
+    state: present
+    update_cache: yes
+
+- name: Start Docker Service
+  ansible.builtin.service:
+    name: docker
+    state: started
+    enabled: yes
+
+- name: Pull Image and run the container
+  docker_container:
+    name: my-website
+    image: "asmina001\s3:latest"
+    state: started
+    pull: true
+    ports:
+      - "80:80"
+
