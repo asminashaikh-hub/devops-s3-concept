@@ -1,14 +1,14 @@
-- name: CI-CD pipeline
-  on:
-    push:
-      branches: [main]
-    pull_request:
-      branches: [main]
+name: CI-CD pipeline
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
 
-  jobs:
-    build:
-      runs-ons: ubuntu-latest
-      steps:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
 
         - name: "Checkout "
           uses: actions/checkout@v4
@@ -16,8 +16,8 @@
         - name: "Configure AWS credentials"
           uses: aws-actions/configure-aws-credentials@v4
           with:
-            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
-            aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
             aws-region: ap-south-1
 
         - name: "Create S3 bucket "
@@ -42,7 +42,7 @@
             push: true
             tags: ${{secrets.Docker_user}}/s3:latest
     
-    deploy:
+  _deploy:
       needs: build
       runs-on: ubuntu-latest
 
@@ -65,13 +65,13 @@
             echo "${{secrets.ssh}}" > instance-key.pem
             chmod 400 instance-key.pem
 
-       - name: "Play the playbook"
-         working-directory: ansible
-         env: 
+        - name: "Play the playbook"
+          working-directory: ansible
+          env: 
            AWS_ACCESS_KEY_ID: ${{secrets.AWS_ACCESS_KEY_ID}}
            AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_ACCESS_KEY}}
            AWS_DEFAULT_REGION: "ap-south-1"
           
-         run: |
+          run: |
            ansible-inventory inventory/aws_ec2.yml --list
            ansible-playbook -i inventory/aws_ec2.yml play.yml
